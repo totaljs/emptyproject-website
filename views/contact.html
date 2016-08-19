@@ -51,6 +51,6 @@
 	var form = {};
 	OPERATION('submit', function() {
 		RESET('form.*');
-		AJAX('POST /api/contact/', form, 'response');
+		AJAX('POST /api/contact/', form, 'form.response');
 	});
 </script>
