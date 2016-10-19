@@ -11,7 +11,7 @@ NEWSCHEMA('Contact').make(function(schema) {
 	schema.setSave(function(error, model, options, callback) {
 
 		model.id = UID();
-		model.datecreated = new Date();
+		model.datecreated = F.datetime;
 
 		// Saves to database
 		NOSQL('contactforms').insert(model.$clean());
@@ -21,14 +21,11 @@ NEWSCHEMA('Contact').make(function(schema) {
 
 		var builder = [];
 
-		builder.push('<b>Created:</b><br />' + new Date().format('yyyy-MM-dd HH:mm:ss'))
+		builder.push('<b>Created:</b><br />' + F.datetime.format('yyyy-MM-dd HH:mm:ss'))
 		builder.push('<b>IP address:</b><br />' + model.ip);
 		builder.push('<b>Name:</b><br />' + model.firstname + ' ' + model.lastname);
 		builder.push('<b>Email address:</b><br />' + model.email);
-
-		if (model.phone)
-			builder.push('<b>Phone number:</b><br />' + model.phone);
-
+		model.phone && builder.push('<b>Phone number:</b><br />' + model.phone);
 		builder.push('<b>Question:</b><br />' + model.body);
 
 		// Sends email
