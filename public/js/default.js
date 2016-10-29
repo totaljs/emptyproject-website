@@ -16,9 +16,7 @@ COMPONENT('newsletter', function() {
 		input = self.find('input');
 
 		self.element.on('keydown', 'input', function(e) {
-			if (e.keyCode !== 13)
-				return;
-			button.trigger('click');
+			e.keyCode === 13 && button.trigger('click');
 		});
 
 		button.on('click', function() {

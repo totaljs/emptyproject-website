@@ -1,19 +1,16 @@
 // Source: www.componentator.com
 
-/**
- * Textbox
- * @version 2.0.0
- */
 COMPONENT('textbox', function() {
 
 	var self = this;
-	var required = self.attr('data-required') === 'true';
+	var isRequired = self.attr('data-required') === 'true';
+	var validation = self.attr('data-validate');
 	var input;
 	var container;
 
 	self.validate = function(value) {
 
-		if (input.prop('disabled'))
+		if (input.prop('disabled') || !isRequired)
 			return true;
 
 		var type = typeof(value);
@@ -23,18 +20,29 @@ COMPONENT('textbox', function() {
 		else
 			value = value.toString();
 
-		if (window.$calendar)
-			window.$calendar.hide();
+		EXEC('$calendar.hide');
 
-		if (self.type === 'email')
-			return value.isEmail();
-		if (self.type === 'currency')
-			return value > 0;
-		return value.length > 0;
+		switch (self.type) {
+			case 'email':
+				return value.isEmail();
+			case 'url':
+				return value.isURL();
+			case 'currency':
+			case 'number':
+				return value > 0;
+		}
+
+		return validation ? self.evaluate(value, validation, true) ? true : false : value.length > 0;
 	};
 
-	if (!required)
-		self.noValid();
+	!isRequired && self.noValid();
+
+	self.required = function(value) {
+		self.element.find('.ui-textbox-label').toggleClass('ui-textbox-label-required', value);
+		self.noValid(!value);
+		isRequired = value;
+		!value && self.state(1, 1);
+	};
 
 	self.make = function() {
 
@@ -50,49 +58,50 @@ COMPONENT('textbox', function() {
 		attrs.attr('data-component-bind', '');
 
 		tmp = self.attr('data-align');
-		if (tmp)
-			attrs.attr('class', 'ui-' + tmp);
-
-		if (self.attr('data-autofocus') === 'true')
-			attrs.attr('autofocus');
+		tmp && attrs.attr('class', 'ui-' + tmp);
+		self.attr('data-autofocus') === 'true' && attrs.attr('autofocus');
 
 		var content = self.html();
 		var icon = self.attr('data-icon');
 		var icon2 = self.attr('data-control-icon');
 		var increment = self.attr('data-increment') === 'true';
 
-		if (!icon2 && self.type === 'date')
-			icon2 = 'fa-calendar';
-
 		builder.push('<input {0} />'.format(attrs.join(' ')));
 
-		if (icon2)
-			builder.push('<div><span class="fa {0}"></span></div>'.format(icon2));
-		else if (increment)
-			builder.push('<div><span class="fa fa-caret-up"></span><span class="fa fa-caret-down"></span></div>');
-
-		if (increment) {
-			self.element.on('click', '.fa-caret-up,.fa-caret-down', function(e) {
-				var el = $(this);
-				var inc = -1;
-				if (el.hasClass('fa-caret-up'))
-					inc = 1;
-				self.change(true);
-				self.inc(inc);
+		if (!icon2 && self.type === 'date')
+			icon2 = 'fa-calendar';
+		else if (self.type === 'search') {
+			icon2 = 'fa-search ui-textbox-control-icon';
+			self.element.on('click', '.ui-textbox-control-icon', function() {
+				self.$stateremoved = false;
+				$(this).removeClass('fa-times').addClass('fa-search');
+				self.set('');
 			});
-		}
-
-		if (self.type === 'date') {
-			self.element.on('click', '.fa-calendar', function(e) {
-				e.preventDefault();
-				if (!window.$calendar)
+			self.getter2 = function(value) {
+				if (self.$stateremoved && !value)
 					return;
-				var el = $(this);
-				window.$calendar.toggle(el.parent().parent(), self.element.find('input').val(), function(date) {
-					self.set(date);
-				});
-			});
+				self.$stateremoved = value ? false : true;
+				self.find('.ui-textbox-control-icon').toggleClass('fa-times', value ? true : false).toggleClass('fa-search', value ? false : true);
+			};
 		}
+
+		icon2 && builder.push('<div><span class="fa {0}"></span></div>'.format(icon2));
+		increment && !icon2 && builder.push('<div><span class="fa fa-caret-up"></span><span class="fa fa-caret-down"></span></div>');
+		increment && self.element.on('click', '.fa-caret-up,.fa-caret-down', function(e) {
+			var el = $(this);
+			var inc = -1;
+			if (el.hasClass('fa-caret-up'))
+				inc = 1;
+			self.change(true);
+			self.inc(inc);
+		});
+
+		self.type === 'date' && self.element.on('click', '.fa-calendar', function(e) {
+			e.preventDefault();
+			window.$calendar && window.$calendar.toggle($(this).parent().parent(), self.element.find('input').val(), function(date) {
+				self.set(date);
+			});
+		});
 
 		if (!content.length) {
 			self.element.addClass('ui-textbox ui-textbox-container');
@@ -104,11 +113,8 @@ COMPONENT('textbox', function() {
 
 		var html = builder.join('');
 		builder = [];
-		builder.push('<div class="ui-textbox-label{0}">'.format(required ? ' ui-textbox-label-required' : ''));
-
-		if (icon)
-			builder.push('<span class="fa {0}"></span> '.format(icon));
-
+		builder.push('<div class="ui-textbox-label{0}">'.format(isRequired ? ' ui-textbox-label-required' : ''));
+		icon && builder.push('<span class="fa {0}"></span> '.format(icon));
 		builder.push(content);
 		builder.push(':</div><div class="ui-textbox">{0}</div>'.format(html));
 
@@ -129,14 +135,10 @@ COMPONENT('textbox', function() {
 	};
 });
 
-/**
- * Textarea
- * @version 2.0.0
- */
 COMPONENT('textarea', function() {
 
 	var self = this;
-	var required = self.attr('data-required') === 'true';
+	var isRequired = self.attr('data-required') === 'true';
 	var input;
 	var container;
 
@@ -144,8 +146,7 @@ COMPONENT('textarea', function() {
 
 		var is = false;
 		var type = typeof(value);
-
-		if (input.prop('disabled'))
+		if (input.prop('disabled') || !isRequired)
 			return true;
 
 		if (type === 'undefined' || type === 'object')
@@ -153,14 +154,18 @@ COMPONENT('textarea', function() {
 		else
 			value = value.toString();
 
-		if (window.$calendar)
-			window.$calendar.hide();
-
+		EXEC('$calendar.hide');
 		return value.length > 0;
 	};
 
-	if (!required)
-		self.noValid();
+	!isRequired && self.noValid();
+
+	self.required = function(value) {
+		self.element.find('.ui-textarea-label').toggleClass('ui-textarea-label-required', value);
+		self.noValid(!value);
+		isRequired = value;
+		!value && self.state(1, 1);
+	};
 
 	self.make = function() {
 
@@ -173,12 +178,8 @@ COMPONENT('textarea', function() {
 		attrs.attr('data-component-bind', '');
 
 		tmp = self.attr('data-height');
-		if (tmp)
-			attrs.attr('style', 'height:' + tmp);
-
-		if (self.attr('data-autofocus') === 'true')
-			attrs.attr('autofocus');
-
+		tmp && attrs.attr('style', 'height:' + tmp);
+		self.attr('data-autofocus') === 'true' && attrs.attr('autofocus');
 		builder.push('<textarea {0}></textarea>'.format(attrs.join(' ')));
 
 		var element = self.element;
@@ -194,14 +195,11 @@ COMPONENT('textarea', function() {
 
 		var height = self.attr('data-height');
 		var icon = self.attr('data-icon');
-
 		var html = builder.join('');
+
 		builder = [];
-		builder.push('<div class="ui-textarea-label{0}">'.format(required ? ' ui-textarea-label-required' : ''));
-
-		if (icon)
-			builder.push('<span class="fa {0}"></span> '.format(icon));
-
+		builder.push('<div class="ui-textarea-label{0}">'.format(isRequired ? ' ui-textarea-label-required' : ''));
+		icon && builder.push('<span class="fa {0}"></span>'.format(icon));
 		builder.push(content);
 		builder.push(':</div><div class="ui-textarea">{0}</div>'.format(html));
 
@@ -222,10 +220,6 @@ COMPONENT('textarea', function() {
 	};
 });
 
-/**
- * Validator
- * @version 2.0.0
- */
 COMPONENT('validation', function() {
 
 	var self = this;
@@ -252,18 +246,25 @@ COMPONENT('validation', function() {
 
 COMPONENT('visible', function() {
 	var self = this;
-	var condition = self.attr('data-if');
+	var processed = false;
+	var template = self.attr('data-template');
 	self.readonly();
 	self.setter = function(value) {
 
 		var is = true;
+		var condition = self.attr('data-if');
 
 		if (condition)
-			is = EVALUATE(self.path, condition);
+			is = self.evaluate(condition);
 		else
 			is = value ? true : false;
 
-		self.element.toggleClass('hidden', !is);
+		if (is && template && !processed) {
+			IMPORT(template, self);
+			processed = true;
+		}
+
+		self.toggle('hidden', !is);
 	};
 });
 
@@ -281,20 +282,11 @@ COMPONENT('click', function() {
 	};
 
 	self.make = function() {
-
 		self.element.on('click', self.click);
-
 		var enter = self.attr('data-enter');
-		if (!enter)
-			return;
-
-		$(enter).on('keydown', 'input', function(e) {
-			if (e.keyCode !== 13)
-				return;
-			setTimeout(function() {
-				if (self.element.get(0).disabled)
-					return;
-				self.click();
+		enter && $(enter === '?' ? self.scope : enter).on('keydown', 'input', function(e) {
+			e.keyCode === 13 && setTimeout(function() {
+				!self.element.get(0).disabled && self.click();
 			}, 100);
 		});
 	};
