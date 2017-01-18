@@ -56,6 +56,7 @@ COMPONENT('textbox', function() {
 		attrs.attr('data-component-keypress', self.attr('data-component-keypress'));
 		attrs.attr('data-component-keypress-delay', self.attr('data-component-keypress-delay'));
 		attrs.attr('data-component-bind', '');
+		attrs.attr('name', self.path);
 
 		tmp = self.attr('data-align');
 		tmp && attrs.attr('class', 'ui-' + tmp);
@@ -131,7 +132,7 @@ COMPONENT('textbox', function() {
 		if (invalid === self.$oldstate)
 			return;
 		self.$oldstate = invalid;
-		container.toggleClass('ui-textbox-invalid', self.isInvalid());
+		container.toggleClass('ui-textbox-invalid', invalid);
 	};
 });
 
@@ -144,7 +145,6 @@ COMPONENT('textarea', function() {
 
 	self.validate = function(value) {
 
-		var is = false;
 		var type = typeof(value);
 		if (input.prop('disabled') || !isRequired)
 			return true;
@@ -216,7 +216,7 @@ COMPONENT('textarea', function() {
 		if (invalid === self.$oldstate)
 			return;
 		self.$oldstate = invalid;
-		container.toggleClass('ui-textarea-invalid', self.isInvalid());
+		container.toggleClass('ui-textarea-invalid', invalid);
 	};
 });
 
@@ -268,26 +268,65 @@ COMPONENT('visible', function() {
 	};
 });
 
-COMPONENT('click', function() {
+COMPONENT('exec', function() {
 	var self = this;
+	self.readonly();
+	self.blind();
+	self.make = function() {
+		self.element.on('click', self.attr('data-selector') || '.exec', function() {
+			var el = $(this);
+			var attr = el.attr('data-exec');
+			attr && EXEC(attr, el);
+		});
+	};
+});
 
+COMPONENT('cookie', function() {
+	var self = this;
+	self.singleton();
 	self.readonly();
 
-	self.click = function() {
-		var value = self.attr('data-value');
-		if (typeof(value) === 'string')
-			self.set(self.parser(value));
-		else
-			self.get(self.attr('data-component-path'))(self);
+	self.cancel = function() {
+		document.cookie.split(';').forEach(function(key) {
+			jC.cookies.set(key.split('=')[0], '', '-2 days');
+		});
+		try {
+			Object.keys(localStorage).forEach(function(key) {
+				localStorage.removeItem(key);
+			});
+		} catch (e) {}
+		location.href = 'about:blank';
+		return self;
 	};
 
 	self.make = function() {
-		self.element.on('click', self.click);
-		var enter = self.attr('data-enter');
-		enter && $(enter === '?' ? self.scope : enter).on('keydown', 'input', function(e) {
-			e.keyCode === 13 && setTimeout(function() {
-				!self.element.get(0).disabled && self.click();
-			}, 100);
+
+		var cookie;
+
+		// private mode
+		try {
+			cookie = localStorage.getItem('cookie');
+		} catch (e) {}
+
+		if (cookie) {
+			self.element.addClass('hidden');
+			return;
+		}
+
+		self.element.removeClass('hidden').addClass('ui-cookie');
+		self.element.append('<button name="agree">' + (self.attr('data-agree') || 'OK') + '</button>');
+		self.element.append('<button name="cancel">' + (self.attr('data-cancel') || 'Cancel') + '</button>');
+
+		self.element.on('click', 'button', function() {
+
+			if (this.name === 'cancel')
+				return self.cancel();
+
+			// private mode
+			try {
+				localStorage.setItem('cookie', '1');
+			} catch (e) {}
+			self.element.addClass('hidden');
 		});
 	};
 });

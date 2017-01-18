@@ -1,0 +1,41 @@
+<div class="newsletter" data-jc="newsletter" data-success="Thanks, you have been added." data-widget="true">
+	<div class="newsletter-button"><button><span class="fa fa-envelope"></span>SUBMIT</button></div>
+	<div class="newsletter-input"><input type="text" placeholder="Join to our mailing list"></div>
+</div>
+
+<script>
+	COMPONENT('newsletter', function() {
+		var self = this;
+		var button;
+		var input;
+
+		self.readonly();
+		self.make = function() {
+
+			button = self.find('button');
+			input = self.find('input');
+
+			self.element.on('keydown', 'input', function(e) {
+				e.keyCode === 13 && button.trigger('click');
+			});
+
+			button.on('click', function() {
+
+				var mail = input.val();
+				if (!mail.isEmail())
+					return;
+
+				AJAX('POST /api/newsletter/', { email: input.val() }, function(response) {
+
+					input.addClass('newsletter-success');
+					input.val(self.attr('data-success'));
+
+					setTimeout(function() {
+						input.val('');
+						input.removeClass('newsletter-success');
+					}, 3000);
+				});
+			});
+		};
+	});
+</script>
