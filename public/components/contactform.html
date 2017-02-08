@@ -45,6 +45,6 @@
 		var component = el.closest('[data-jc-path]').component();
 		var scope = component.pathscope;
 		RESET(scope + '.*');
-		AJAX('POST /api/contact/', GET(scope), scope + 'response');
+		AJAX('POST /api/contact/', GET(scope), scope + '.response');
 	});
 </script>
