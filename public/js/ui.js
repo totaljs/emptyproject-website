@@ -309,15 +309,14 @@ COMPONENT('cookie', function() {
 		} catch (e) {}
 
 		if (cookie) {
-			self.element.addClass('hidden');
+			self.classes('hidden');
 			return;
 		}
 
-		self.element.removeClass('hidden').addClass('ui-cookie');
-		self.element.append('<button name="agree">' + (self.attr('data-agree') || 'OK') + '</button>');
-		self.element.append('<button name="cancel">' + (self.attr('data-cancel') || 'Cancel') + '</button>');
+		self.classes('-hidden ui-cookie');
+		self.append('<button name="agree">{0}</button><button name="cancel">{1}</button>'.format(self.attr('data-agree') || 'OK', self.attr('data-cancel') || 'Cancel'));
 
-		self.element.on('click', 'button', function() {
+		self.event('click', 'button', function() {
 
 			if (this.name === 'cancel')
 				return self.cancel();
@@ -326,7 +325,7 @@ COMPONENT('cookie', function() {
 			try {
 				localStorage.setItem('cookie', '1');
 			} catch (e) {}
-			self.element.addClass('hidden');
+			self.classes('hidden');
 		});
 	};
 });
