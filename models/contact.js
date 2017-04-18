@@ -29,6 +29,6 @@ NEWSCHEMA('Contact').make(function(schema) {
 		builder.push('<b>Question:</b><br />' + model.body);
 
 		// Sends email
-		F.logmail(CONFIG('mail.contact'), 'Contact form # ' + model.id, builder.join('\n\n')).reply(model.email);
+		F.logmail(F.config['mail-contact'], 'Contact form # ' + model.id, builder.join('\n\n')).reply(model.email);
 	});
 });
