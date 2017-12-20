@@ -1,22 +1,22 @@
 <div data-jc-scope="?" class="hidden" data-jc-class="hidden">
 
-	<div data-jc="visible" data-jc-path="response" data-if="value && value.success === true" class="hidden">
+	<div data-jc="visible" data-jc-path="response" data-jc-config="if:value && value.success === true" class="hidden">
 		<div class="message-success"><span class="fa fa-check-circle"></span>Thanks, the contact form has been sent successfully.</div>
 		<br />
 	</div>
 
-	<div data-jc="visible" data-jc-path="response" data-if="!value || !value.success">
+	<div data-jc="visible" data-jc-path="response" data-jc-config="if:!value || !value.success">
 		<div class="row">
 			<div class="col-md-6 m">
-				<div data-jc="textbox" data-jc-path="firstname" data-required="true" data-jc-value="''">First name</div>
+				<div data-jc="textbox" data-jc-path="firstname" data-jc-value="''" data-jc-config="required:true">First name</div>
 			</div>
 			<div class="col-md-6 m">
-				<div data-jc="textbox" data-jc-path="lastname" data-required="true" data-jc-value="''">Last name</div>
+				<div data-jc="textbox" data-jc-path="lastname" data-jc-value="''" data-jc-config="required:true">Last name</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6 m">
-				<div data-jc="textbox" data-jc-path="email" data-required="true" data-jc-type="email" data-jc-value="'@'">Email address</div>
+				<div data-jc="textbox" data-jc-path="email" data-jc-value="'@'" data-jc-config="required:true;type:email">Email address</div>
 			</div>
 			<div class="col-md-6 m">
 				<div data-jc="textbox" data-jc-path="phone" data-jc-value="''">Phone number</div>
@@ -25,7 +25,7 @@
 		<br />
 		<div class="row">
 			<div class="col-md-12 m">
-				<div data-jc="textarea" data-jc-path="message" data-required="true" data-height="100px" data-jc-value="''">Message</div>
+				<div data-jc="textarea" data-jc-path="message" data-jc-value="''" data-jc-config="height:100;required:true">Message</div>
 			</div>
 		</div>
 		<div data-jc="error" data-jc-path="response"></div>
@@ -33,7 +33,7 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div data-jc="validation" data-jc-path="?">
-					<button class="button exec" disabled="disabled" data-exec="#contactform.submit">SUBMIT FORM</button>
+					<button class="button exec" name="submit" disabled="disabled" data-exec="contactformsubmit">SUBMIT FORM</button>
 				</div>
 			</div>
 		</div>
@@ -41,10 +41,12 @@
 </div>
 
 <script>
-	OPERATION('contactform.submit', function(el) {
+	!window.contactformsubmit && (window.contactformsubmit = function(el) {
 		var component = el.closest('[data-jc-path]').component();
 		var scope = component.pathscope;
-		RESET(scope + '.*');
-		AJAX('POST /api/contact/', GET(scope), scope + '.response');
+		if (CAN(scope + '.*')) {
+			RESET(scope + '.*');
+			AJAX('POST /api/contact/', GET(scope), scope + '.response');
+		}
 	});
 </script>

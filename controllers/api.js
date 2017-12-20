@@ -1,10 +1,14 @@
 exports.install = function() {
-	F.route('/api/newsletter/', json_save, ['post', '*Newsletter']);
-	F.route('/api/contact/', json_save, ['post', '*Contact']);
+
+	// Enable cors
+	CORS('/api/*', ['post']);
+
+	// Define API routes
+	ROUTE('/api/newsletter/', json_save, ['*Newsletter', 'post']);
+	ROUTE('/api/contact/',    json_save, ['*Contact', 'post']);
+
 };
 
 function json_save() {
-	var self = this;
-	self.body.ip = self.ip;
-	self.body.$save(self.callback());
+	this.body.$save(this.callback());
 }

@@ -5,23 +5,25 @@ NEWSCHEMA('Contact').make(function(schema) {
 	schema.define('email', 'Email', true);
 	schema.define('message', String, true);
 	schema.define('phone', 'Phone');
-	schema.define('ip', 'String(80)');
 
 	// Saves the model into the database
-	schema.setSave(function(error, model, options, callback) {
+	schema.setSave(function($) {
+
+		var model = $.model;
 
 		model.id = UID();
 		model.datecreated = F.datetime;
+		model.ip = $.ip;
 
 		// Saves to database
 		NOSQL('contactforms').insert(model);
 
 		// Returns response
-		callback(SUCCESS(true));
+		$.success();
 
 		var builder = [];
 
-		builder.push('<b>Created:</b><br />' + F.datetime.format('yyyy-MM-dd HH:mm:ss'))
+		builder.push('<b>Created:</b><br />' + F.datetime.format('yyyy-MM-dd HH:mm:ss'));
 		builder.push('<b>IP address:</b><br />' + model.ip);
 		builder.push('<b>Name:</b><br />' + model.firstname + ' ' + model.lastname);
 		builder.push('<b>Email address:</b><br />' + model.email);
@@ -29,6 +31,6 @@ NEWSCHEMA('Contact').make(function(schema) {
 		builder.push('<b>Question:</b><br />' + model.body);
 
 		// Sends email
-		F.logmail(F.config['mail-contact'], 'Contact form # ' + model.id, builder.join('\n\n')).reply(model.email);
+		LOGMAIL(F.config['mail-contact'], 'Contact form # ' + model.id, builder.join('\n\n')).reply(model.email);
 	});
 });
