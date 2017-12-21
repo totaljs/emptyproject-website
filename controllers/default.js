@@ -1,7 +1,7 @@
 exports.install = function() {
 
 	ROUTE('/');
-	ROUTE('/services/');
+	ROUTE('/services/', view_services);
 	ROUTE('/contact/');
 	ROUTE('/references/');
 
@@ -9,3 +9,8 @@ exports.install = function() {
 	LOCALIZE('/components/*.html', ['compress']);
 
 };
+
+function view_services() {
+	var self = this;
+	self.view('services');
+}
