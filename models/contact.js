@@ -31,6 +31,6 @@ NEWSCHEMA('Contact').make(function(schema) {
 		builder.push('<b>Question:</b><br />' + model.body);
 
 		// Sends email
-		LOGMAIL(F.config['mail-contact'], 'Contact form # ' + model.id, builder.join('\n\n')).reply(model.email);
+		LOGMAIL(F.config['mail_contact'], 'Contact form # ' + model.id, builder.join('\n\n')).reply(model.email);
 	});
 });
