@@ -15,3 +15,4 @@ This example uses UI components from [cdn.componentator.com](https://cdn.compone
 - perform `$ npm install total.js`
 - run `$ node debug.js`
 - open browser `http://127.0.0.1:8000`
+- Done! Isn't easy
