@@ -1,4 +1,4 @@
-NEWSCHEMA('Newsletter').make(function(schema) {
+NEWSCHEMA('Newsletter', function(schema) {
 
 	schema.define('email', 'Email', true);
 

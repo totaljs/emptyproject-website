@@ -12,6 +12,6 @@ This example uses UI components from [cdn.componentator.com](https://cdn.compone
 - download example
 - open terminal / command-line
 - open app directory
-- perform `$ npm install total.js`
-- run `$ node debug.js`
-- open browser `http://127.0.0.1:8000`
+- run `$ npm install total4`
+- run `$ node index.js`
+- open browser `http://localhost:8000`
