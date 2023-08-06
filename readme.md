@@ -1,3 +1,5 @@
+# Total.js Empty project website
+
 - [__Documentation__](https://docs.totaljs.com/total4/)
 - [Chat support](https://platform.totaljs.com/?open=messenger)
 - [Join __Total.js Telegram__](https://t.me/totalplatform)
