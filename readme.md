@@ -1,4 +1,4 @@
-# Total.js Empty project website
+# Total.js website empty project
 
 - [__Documentation__](https://docs.totaljs.com/total4/)
 - [Chat support](https://platform.totaljs.com/?open=messenger)
@@ -8,7 +8,7 @@
 ### How to run it?
 
 - install [Node.js platform](https://nodejs.org/en/)
-- download Flow source code
+- download source code
 - open terminal/command-line:
-	- `cd flow`
+	- `cd emptyproject-website`
 	- `npm install`
