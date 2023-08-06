@@ -1,15 +1,17 @@
 {
-	"name": "emptyproject",
-	"description": "Total.js empty project.",
-	"version": "1.0.0",
-	"main": "index.js",
-	"dependencies": {
-		"total4": "latest"
-	},
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"keywords": ["empty", "project"],
-	"author": "Peter Širka",
-	"license": "MIT"
+  "name": "emptyproject-website",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/totaljs/emptyproject-website"
+  },
+  "dependencies": {
+    "total4": "latest"
+  },
+  "scripts": {
+    "start": "node index.js 8000"
+  },
+  "author": "Total.js",
+  "license": "MIT"
 }
