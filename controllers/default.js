@@ -1,16 +1,13 @@
 exports.install = function() {
 
-	ROUTE('/');
-	ROUTE('/services/', view_services);
-	ROUTE('/contact/');
-	ROUTE('/references/');
-
-	// Enables a localization mechanism + compression for all client-side components
-	LOCALIZE('/components/*.html', ['compress']);
+	ROUTE('GET /');
+	ROUTE('GET /services/', view_services);
+	ROUTE('GET /contact/');
+	ROUTE('GET /references/');
 
 };
 
 function view_services() {
-	var self = this;
-	self.view('services');
+	var $ = this;
+	$.view('services');
 }
