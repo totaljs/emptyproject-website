@@ -6,6 +6,7 @@
 	<meta name="format-detection" content="telephone=no" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<meta name="robots" content="all,follow" />
+	<link rel="stylesheet" href="/public/css/default.css">
 	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,700&subset=latin,latin-ext" />
 	<!--- <link rel="stylesheet" href="//cdn.componentator.com/spa.min.css" /> --->
 	<!--- <script src="//cdn.componentator.com/spa.min.js"></script>--->
@@ -16,12 +17,12 @@
 </head>
 <body>
 	<ui-component name="exec"></ui-component>
-	<ui-component name="icons"></ui-component>
+	<ui-component name="LAZY icons"></ui-component>
 	<ui-component name="cookie" class="hidden">This site uses cookies for visitor statistics. By continuing to browse the site you are agreeing to our use of cookies.</ui-component>
 	<header>
 		<div class="container">
 			<a href="javascript:void(0)" class="mainmenu-button"><i class="ti ti-navicon"></i></a>
-			<a href="/"><img src="/img/logo.png" alt="@{config.name}" border="0" height="30" /></a>
+			<a href="/"><img src="/public/img/logo.png" alt="@{config.name}" border="0" height="30" /></a>
 			<nav>
 				<a href="/"><i class="ti ti-home"></i>Home</a>
 				<a href="/services/">Services</a>
@@ -34,9 +35,18 @@
 		@{body}
 	</div>
 	<footer>
-		<div>&copy; 2015-2017 All rights reserved.</div>
+		<div>&copy; 2015-2023 All rights reserved.</div>
 		<div><a href="http://www.totaljs.com">Powered by Total.js</a></div>
 	</footer>
 
+	<script>
+		MAIN.defaults.fallbackcache = '1 day';
+
+		$(document).ready(function() {
+			$(document).on('click', '.mainmenu-button', function() {
+				$(this).parent().find('nav').toggleClass('mainmenu-visible');
+			});
+		});
+	</script>
 </body>
 </html>
