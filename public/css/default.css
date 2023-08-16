@@ -29,6 +29,7 @@ h3.large { font-size: 30px; margin-bottom: 15px; font-weight: 200; }
 
 .m { margin-bottom: 20px; }
 
+/*
 .newsletter { background-color: #F0F0F0; margin: 20px 0; }
 .newsletter-input { margin-right: 150px; padding: 0 20px; background-color: #F0F0F0; }
 .newsletter-input input { width: 100%; background-color: transparent; border: 0; font-size: 16px; height: 40px; outline: 0; color: black; }
@@ -37,6 +38,7 @@ h3.large { font-size: 30px; margin-bottom: 15px; font-weight: 200; }
 .newsletter-button button:hover { background-color: black; color: white; }
 .newsletter-button .ti { margin-right: 8px; font-size: 16px; }
 .newsletter-success { color: #7B9B46 !important; }
+*/
 
 .linkbutton { display: block; border: 2px solid #69AF44; padding: 20px 0; text-align: center; border-radius: 4px; color: #69AF44; font-family: var(--font); font-size: 20px; background-color: white; text-decoration: none; }
 .linkbutton:hover { color: white; text-decoration: none; background-color: #69AF44; }
