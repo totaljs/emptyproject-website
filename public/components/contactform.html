@@ -54,6 +54,7 @@
 		exports.contactformsubmit = function(el) {
 			var component = el.closest('[path]').component();
 			var scope = component.pathscope;
+			console.log('Scope: ', scope);
 			if (CAN(scope + '.*')) {
 				RESET(scope + '.*');
 				AJAX('POST /api/contact/', GET(scope), scope + '.response');
