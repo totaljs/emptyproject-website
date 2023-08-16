@@ -6,3 +6,4 @@ $(document).ready(function() {
 		$(this).parent().find('nav').toggleClass('mainmenu-visible');
 	});
 });
+
