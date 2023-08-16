@@ -4,6 +4,7 @@
 }
 /* $font    : 'Source Sans Pro'; */
 .container { padding-left: 25px; padding-right: 25px; }
+.padding { padding: 30px; }
 
 html,body { height: 100%; }
 body { background-color: white; padding: 0; color: gray; font-smooth: antialiased; }
