@@ -39,13 +39,25 @@
 		<div><a href="http://www.totaljs.com">Powered by Total.js</a></div>
 	</footer>
 
-	<script>
-		MAIN.defaults.fallbackcache = '1 day';
+	<ui-component name="importer" path="common.page" config="if:pagereferences;url:/references.html"></ui-component>
+	<ui-component name="importer" path="common.page" config="if:pageservices;url:/services.html"></ui-component>
+	<ui-component name="importer" path="common.page" config="if:pagecontact;url:/contact.html"></ui-component>
 
-		$(document).ready(function() {
-			$(document).on('click', '.mainmenu-button', function() {
-				$(this).parent().find('nav').toggleClass('mainmenu-visible');
+	<script>
+		PLUGIN('common', function(exports) {
+
+			ROUTE('/references/', function() {
+				SET('common.page', 'pagereferences');
 			});
+
+			ROUTE('/services/', function() {
+				SET('common.page', 'pageservices');
+			});
+
+			ROUTE('/contact/', function() {
+				SET('common.page', 'pagecontact');
+			});
+
 		});
 	</script>
 </body>
