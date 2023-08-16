@@ -14,7 +14,6 @@
 
 	<link href="//cdn.componentator.com/spa.min@19pro.css" rel="stylesheet" />
 	<script src="//cdn.componentator.com/spa.min@19.js"></script>
-	@{import('meta', 'head', 'default.css', 'default.js', 'favicon.ico')}
 </head>
 <body>
 	<ui-component name="exec"></ui-component>
@@ -23,7 +22,7 @@
 	<header>
 		<div class="container">
 			<a href="javascript:void(0)" class="mainmenu-button"><i class="ti ti-navicon"></i></a>
-			<a href="/"><img src="/public/img/logo.png" alt="@{config.name}" border="0" height="30" /></a>
+			<a href="/"><img src="/public/img/logo.png" alt="@{config.name}" height="30" /></a>
 			<nav>
 				<a href="/"><i class="ti ti-home"></i>Home</a>
 				<a href="services.html">Services</a>
@@ -33,7 +32,53 @@
 		</div>
 	</header>
 	<div class="container">
-		@{body}
+		<h1>Total.js Example</h1>
+		<div class="row">
+			<div class="col-md-4 col-sm-4 m">
+				<a href="services.html"><img src="/public/img/001.jpg" alt="Eshop" class="img-responsive img-rounded" /></a>
+			</div>
+			<div class="col-md-4 col-sm-4 m">
+				<a href="services.html"><img src="/public/img/002.jpg" alt="Easy modifications" class="img-responsive img-rounded" /></a>
+			</div>
+			<div class="col-md-4 col-sm-4 m">
+				<a href="services.html"><img src="/public/img/003.jpg" alt="Redesign it" class="img-responsive img-rounded" /></a>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<ui-import path="/public/components/newsletter.html"></ui-import>
+			</div>
+		</div>
+		<br />
+		<hr />
+		<br />
+		<div class="row">
+			<div class="col-md-3 col-sm-3 m">
+				<h3>Lorem ipsum dolor</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate vitae ipsam nesciunt officia, ipsa quo molestiae ex quibusdam praesentium odit.</p>
+			</div>
+			<div class="col-md-3 col-sm-3 m">
+				<h3>Lorem ipsum dolor</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate vitae ipsam nesciunt officia, ipsa quo molestiae ex quibusdam praesentium odit.</p>
+			</div>
+			<div class="col-md-3 col-sm-3 m">
+				<h3>Lorem ipsum dolor</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate vitae ipsam nesciunt officia, ipsa quo molestiae ex quibusdam praesentium odit.</p>
+			</div>
+			<div class="col-md-3 col-sm-3 m">
+				<h3>Lorem ipsum dolor</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate vitae ipsam nesciunt officia, ipsa quo molestiae ex quibusdam praesentium odit.</p>
+			</div>
+		</div>
+		<br />
+		<br />
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 m">
+				<a href="contact.html" class="linkbutton">CONTACT US</a>
+			</div>
+		</div>
+
 	</div>
 	<footer>
 		<div>&copy; 2015-2023 All rights reserved.</div>
