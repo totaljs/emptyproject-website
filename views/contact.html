@@ -23,10 +23,10 @@
 				<ui-component name="visible" path="response" config="if:!value || !value.success">
 					<div class="row">
 						<div class="col-md-6 m">
-							<ui-component name="textbox" path="firstname" default="''" config="required:true">First name here</ui-component>
+							<ui-component name="textbox" path="firstname" config="required:true">First name here</ui-component>
 						</div>
 						<div class="col-md-6 m">
-							<ui-component name="textbox" path="lastname" default="''" config="required:true">Last name</ui-component>
+							<ui-component name="textbox" path="lastname" config="required:true">Last name</ui-component>
 						</div>
 					</div>
 					<div class="row">
@@ -34,13 +34,13 @@
 							<ui-component name="textbox" path="email" default="'@'" config="required:true;type:email">Email address</ui-component>
 						</div>
 						<div class="col-md-6 m">
-							<ui-component name="textbox" path="phone" default="''">Phone number</ui-component>
+							<ui-component name="textbox" path="phone">Phone number</ui-component>
 						</div>
 					</div>
 					<br />
 					<div class="row">
 						<div class="col-md-12 m">
-							<ui-component name="textarea" path="message" default="''" config="height:100;required:true">Message</ui-component>
+							<ui-component name="textarea" path="message" config="height:100;required:true">Message</ui-component>
 						</div>
 					</div>
 					<ui-component name="error" path="response"></ui-component>
