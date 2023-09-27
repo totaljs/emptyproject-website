@@ -1,49 +1,88 @@
-@{title('Full website example')}
 
-<h1>Total.js Example</h1>
-<div class="row">
-	<div class="col-md-4 col-sm-4 m">
-		<a href="/services/"><img src="/img/001.jpg" border="0" alt="Eshop" class="img-responsive img-rounded" /></a>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=10" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="robots" content="all,follow" />
+	<link rel="stylesheet" href="/public/css/default.css">
+	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,700&subset=latin,latin-ext" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//cdn.componentator.com/spa.min.css" />
+	<link href="//cdn.componentator.com/spa.min@19pro.css" rel="stylesheet" />
+	<script src="//cdn.componentator.com/spa.min@19.js"></script>
+</head>
+<body>
+	<h1>Total.js Example</h1>
+	<div class="row">
+		<div class="col-md-4 col-sm-4 m">
+			<a href="/services/"><img src="/public/img/001.jpg" alt="Eshop" class="img-responsive img-rounded" /></a>
+		</div>
+		<div class="col-md-4 col-sm-4 m">
+			<a href="/services/"><img src="/public/img/002.jpg" alt="Easy modifications" class="img-responsive img-rounded" /></a>
+		</div>
+		<div class="col-md-4 col-sm-4 m">
+			<a href="/services/"><img src="/public/img/003.jpg" alt="Redesign it" class="img-responsive img-rounded" /></a>
+		</div>
 	</div>
-	<div class="col-md-4 col-sm-4 m">
-		<a href="/services/"><img src="/img/002.jpg" border="0" alt="Easy modifications" class="img-responsive img-rounded" /></a>
+	<br />
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<ui-import path="/public/components/newsletter.html"></ui-import>
+		</div>
 	</div>
-	<div class="col-md-4 col-sm-4 m">
-		<a href="/services/"><img src="/img/003.jpg" border="0" alt="Redesign it" class="img-responsive img-rounded" /></a>
+	<br />
+	<hr />
+	<br />
+	<div class="row">
+		<div class="col-md-3 col-sm-3 m">
+			<h3>Lorem ipsum dolor</h3>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate vitae ipsam nesciunt officia, ipsa quo molestiae ex quibusdam praesentium odit.</p>
+		</div>
+		<div class="col-md-3 col-sm-3 m">
+			<h3>Lorem ipsum dolor</h3>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate vitae ipsam nesciunt officia, ipsa quo molestiae ex quibusdam praesentium odit.</p>
+		</div>
+		<div class="col-md-3 col-sm-3 m">
+			<h3>Lorem ipsum dolor</h3>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate vitae ipsam nesciunt officia, ipsa quo molestiae ex quibusdam praesentium odit.</p>
+		</div>
+		<div class="col-md-3 col-sm-3 m">
+			<h3>Lorem ipsum dolor</h3>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate vitae ipsam nesciunt officia, ipsa quo molestiae ex quibusdam praesentium odit.</p>
+		</div>
 	</div>
-</div>
-<br />
-<div class="row">
-	<div class="col-md-8 col-md-offset-2">
-		<!-- NEWSLETTER COMPONENT -->
-		<div data-jc-url="/components/newsletter.html"></div>
+	<br />
+	<br />
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3 m">
+			<a href="contact.html" class="linkbutton">CONTACT US</a>
+		</div>
 	</div>
-</div>
-<br />
-<hr />
-<br />
-<div class="row">
-	<div class="col-md-3 col-sm-3 m">
-		<h3>Lorem ipsum dolor</h3>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate vitae ipsam nesciunt officia, ipsa quo molestiae ex quibusdam praesentium odit.</p>
-	</div>
-	<div class="col-md-3 col-sm-3 m">
-		<h3>Lorem ipsum dolor</h3>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate vitae ipsam nesciunt officia, ipsa quo molestiae ex quibusdam praesentium odit.</p>
-	</div>
-	<div class="col-md-3 col-sm-3 m">
-		<h3>Lorem ipsum dolor</h3>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate vitae ipsam nesciunt officia, ipsa quo molestiae ex quibusdam praesentium odit.</p>
-	</div>
-	<div class="col-md-3 col-sm-3 m">
-		<h3>Lorem ipsum dolor</h3>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate vitae ipsam nesciunt officia, ipsa quo molestiae ex quibusdam praesentium odit.</p>
-	</div>
-</div>
-<br />
-<br />
-<div class="row">
-	<div class="col-md-6 col-md-offset-3 m">
-		<a href="/contact/" class="linkbutton">CONTACT US</a>
-	</div>
-</div>
+
+	<ui-component name="importer" path="common.page" config="if:pagereferences;url:/references.html"></ui-component>
+	<ui-component name="importer" path="common.page" config="if:pageservices;url:/services.html"></ui-component>
+	<ui-component name="importer" path="common.page" config="if:pagecontact;url:/contact.html"></ui-component>
+
+	<script>
+		PLUGIN('common', function(exports) {
+
+			ROUTE('/references/', function() {
+				SET('common.page', 'pagereferences');
+			});
+
+			ROUTE('/services/', function() {
+				SET('common.page', 'pageservices');
+			});
+
+			ROUTE('/contact/', function() {
+				SET('common.page', 'pagecontact');
+			});
+
+		});
+	</script>
+</body>
+</html>
+
